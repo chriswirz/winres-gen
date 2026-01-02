@@ -1,0 +1,5 @@
+winres-gen
+winres-gen.exe
+.ico
+*.syso
+dist/

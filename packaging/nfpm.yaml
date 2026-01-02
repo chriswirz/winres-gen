@@ -1,0 +1,29 @@
+# nfpm config used by the GitHub Actions pipeline to build .rpm (installable
+# with dnf/yum) and .deb packages. ARCH and PKG_VERSION are supplied by the
+# pipeline, which also stages the binary for the target architecture at
+# packaging/winres-gen (nfpm does not expand environment variables inside
+# contents paths).
+name: winres-gen
+arch: ${ARCH}
+platform: linux
+version: ${PKG_VERSION}
+section: devel
+priority: optional
+maintainer: winres-gen maintainers
+description: |
+  Turns an ordinary image into the Windows resources a Go program needs to
+  carry an icon and version metadata: a multi-size .ico, a web favicon and one
+  .syso object per architecture, ready to commit next to the main package.
+homepage: https://github.com/chriswirz/winres-gen
+license: MIT
+# No runtime dependencies: the tool is a static Go binary that reads PNG, JPEG
+# or GIF input and writes its output files directly.
+contents:
+  - src: packaging/winres-gen
+    dst: /usr/bin/winres-gen
+    file_info:
+      mode: 0755
+  - src: README.md
+    dst: /usr/share/doc/winres-gen/README.md
+    file_info:
+      mode: 0644
